@@ -42,7 +42,7 @@ def register_user(username, password, role="user"):
     # TODO: Append the new user to the file
     # Format: username,hashed_password
     with open("users.txt", "a") as f: 
-         f.write(f"{username},{hashed_password}\n") 
+         f.write(f"{username},{hashed_password},{role}\n") 
     print(f"User '{username}' registered.")
 
     return True
