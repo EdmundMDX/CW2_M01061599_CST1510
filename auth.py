@@ -31,7 +31,7 @@ def verify_password(plain_text_password, hashed_password):
     return bcrypt.checkpw(password_bytes, hashed_password_bytes)
 
 # Step 7. Implement the Registration Function
-def register_user(username, password):
+def register_user(username, password, role="user"):
    
     # TODO: Check if the username already exists
     if user_exists(username):
@@ -244,8 +244,13 @@ def main():
                 print("Error: Passwords do not match.")
                 continue
             
+            role = input("Enter role (user/admin/analyst): ").strip().lower()
+            if role not in ["user", "admin", "analyst"]:
+                print("Error: Invalid role.Defaulting to 'user'.")
+                role = "user"
+
             # Register the user
-            register_user(username, password)
+            register_user(username, password,role)
         
         elif choice == '2':
             # Login flow
