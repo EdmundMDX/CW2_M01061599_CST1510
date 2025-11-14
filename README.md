@@ -1,8 +1,8 @@
 # Week 7: Secure Authentication System
 Project of module 1510 2025-26 CST1510 Programming for Data Communication and Network
-Student Name: Edmund Aspinall 
-Student ID: M01061599
-Course: CST1510 -CW2 - Multi-Domain Intelligence Platform 
+- Student Name: Edmund Aspinall 
+- Student ID: M01061599
+- Course: CST1510 -CW2 - Multi-Domain Intelligence Platform 
 
 ## Project Description
  A command-line authentication system implementing secure password hashing
