@@ -4,4 +4,4 @@ error control
 
 modules:
 pandas
-bycrypt==5.0.0
+bcrypt==5.0.0
