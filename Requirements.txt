@@ -1,4 +1,7 @@
 #include:
-pandas
 try and expect statments 
 error control  
+
+modules:
+pandas
+bycrypt==5.0.0
