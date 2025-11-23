@@ -32,6 +32,7 @@ def verify_password(plain_text_password, hashed_password):
 
 # Step 7. Implement the Registration Function
 def register_user(username, password, role="user"):
+    
     # TODO: Check if the username already exists
     if user_exists(username):
         print(f"Error: Username '{username}' already exists.")
