@@ -32,7 +32,6 @@ def verify_password(plain_text_password, hashed_password):
 
 # Step 7. Implement the Registration Function
 def register_user(username, password, role="user"):
-   
     # TODO: Check if the username already exists
     if user_exists(username):
         print(f"Error: Username '{username}' already exists.")
@@ -42,7 +41,7 @@ def register_user(username, password, role="user"):
     # TODO: Append the new user to the file
     # Format: username,hashed_password
     with open("users.txt", "a") as f: 
-         f.write(f"{username},{hashed_password}\n") 
+         f.write(f"{username},{hashed_password},{role}\n") 
     print(f"User '{username}' registered.")
 
     return True
@@ -250,7 +249,7 @@ def main():
                 role = "user"
 
             # Register the user
-            register_user(username, password,role)
+            register_user(username, password, role)
         
         elif choice == '2':
             # Login flow
