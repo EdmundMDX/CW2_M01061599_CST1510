@@ -1,7 +1,11 @@
 #include:
-try and expect statments 
+try and expect statements 
 error control  
 
 modules:
 pandas
 bcrypt==5.0.0
+
+Ai:
+genai
+streamlit
