@@ -34,12 +34,9 @@ def fetch_metadata_data(table):
             if 'upload_date' in df.columns:
                 df['upload_date'] = pd.to_datetime(df['upload_date'], errors='coerce')
                 
-                # *** MODIFICATION START: Convert date format for display purposes ***
-                # Create a new column or modify in-place for display as dd/mm/yy
                 # Note: The underlying column 'upload_date' is still datetime/date type for charts/filtering
                 # This makes a string column for display in the dataframe.
                 df['Display_Date'] = df['upload_date'].dt.strftime('%d/%m/%y')
-                # *** MODIFICATION END ***
                 
             return df
         except pd.io.sql.DatabaseError as e:
@@ -66,7 +63,7 @@ def add_new_dataset(dataset_id, name, rows, columns, uploaded_by, upload_date):
         except sqlite3.Error as e:
             st.error(f"❌ Error adding dataset: {e}")
 
-# Note: I'm adding a simple update function, for example, to update the dataset name.
+# A simple update function, for example, to update the dataset name.
 def update_dataset_name(dataset_id, new_name):
     """Updates the name of an existing dataset record."""
     conn = get_db_connection()
@@ -112,7 +109,7 @@ def delete_dataset(dataset_id):
 # --- Streamlit Layout ---
 
 st.set_page_config(layout="wide", page_title="Simple Metadata Dashboard")
-st.title("🗄️ Dataset Metadata Tracker")
+st.title("🗄️ Dataset Metadata Dashboard")
 
 # Ensure state keys exist (in case user opens this page first)
 if "logged_in" not in st.session_state:
@@ -128,7 +125,7 @@ if not st.session_state.logged_in:
     st.stop()
 
 
-# Create main tabs for the interface
+# Created main tabs for the interface
 tab_dashboard, tab_add_dataset, tab_update_metadata, tab_delete_dataset = st.tabs([
     "📊 Dashboard",
     "➕ New Dataset",
@@ -136,9 +133,7 @@ tab_dashboard, tab_add_dataset, tab_update_metadata, tab_delete_dataset = st.tab
     "🗑️ Delete Dataset"
 ])
 
-# ==============================================================================
-## Dashboard Overview
-# ==============================================================================
+# Dashboard Overview
 with tab_dashboard:
     st.header("Metadata Summary")
 
@@ -146,7 +141,7 @@ with tab_dashboard:
 
     if not data_df.empty:
 
-        # --- Key Metrics (KPIs) ---
+        # Key Metrics (KPIs) 
         total = len(data_df)
         total_rows = data_df['rows'].sum() if 'rows' in data_df.columns else 0
 
@@ -166,10 +161,10 @@ with tab_dashboard:
 
         st.markdown("---")
 
-        # --- Charts ---
+        # Charts 
         col_chart_1, col_chart_2 = st.columns(2)
 
-        # Chart 1: Uploaded By Distribution (No Change)
+        # Chart 1: Uploaded By Distribution
         with col_chart_1:
             if 'uploaded_by' in data_df.columns:
                 st.subheader("Uploader Distribution")
@@ -178,7 +173,7 @@ with tab_dashboard:
                 fig_uploader = px.bar(uploader_counts, x='Uploader', y='Count', title='Count by Uploader')
                 st.plotly_chart(fig_uploader, use_container_width=True)
 
-        # Chart 2: Dataset Size by Name (MODIFIED to show columns)
+        # Chart 2: Dataset Size by Name 
         with col_chart_2:
             if 'columns' in data_df.columns and 'name' in data_df.columns:
                 st.subheader("Column Count by Dataset Name")
@@ -202,7 +197,7 @@ with tab_dashboard:
         # --- Raw Data Table ---
         st.subheader("Raw Data")
         
-        # *** MODIFICATION START: Select and rename columns for display ***
+        # Select and rename columns for display
         display_cols = ['dataset_id', 'name', 'rows', 'columns', 'uploaded_by', 'Display_Date']
         
         # Create a dictionary to rename the 'Display_Date' column to 'upload_date' for the UI
@@ -212,23 +207,19 @@ with tab_dashboard:
         data_to_display = data_df[display_cols].sort_values(by='dataset_id', ascending=True).rename(columns=rename_map)
         
         st.dataframe(data_to_display, use_container_width=True)
-        # *** MODIFICATION END ***
 
     else:
         st.warning(f"No data available in the '{TABLE_NAME}' table. Use the 'New Dataset' tab to add records.")
 
-
-# ==============================================================================
-## Add New Dataset
-# ==============================================================================
+# Add New Dataset
 with tab_add_dataset:
     st.header("Add New Dataset Metadata")
 
     with st.form("metadata_form"):
 
         col_id, col_name = st.columns(2)
-        dataset_id = col_id.text_input("1. Dataset ID (e.g., DSET001)", placeholder="DSET1001")
-        name = col_name.text_input("2. Dataset Name", placeholder="Customer_List_Q4_2025")
+        dataset_id = col_id.text_input("1. Dataset ID (e.g., 10)", placeholder="1")
+        name = col_name.text_input("2. Dataset Name", placeholder="Customer_List_New")
 
         col_rows, col_cols = st.columns(2)
         rows_str = col_rows.text_input("3. Number of Rows", placeholder="15000")
@@ -267,18 +258,15 @@ with tab_add_dataset:
             else:
                 st.error("Dataset ID and Name are required fields.")
 
-
-# ==============================================================================
-## Update Dataset Name
-# ==============================================================================
+# Update Dataset Name
 with tab_update_metadata:
     st.header("Update Dataset Name")
     st.info("💡 You can find the **Dataset ID** in the **Dashboard** tab's **Raw Data** table.")
 
     with st.form("update_name_form"):
 
-        update_id = st.text_input("1. Enter Dataset ID to Update", placeholder="e.g., DSET1001")
-        new_name = st.text_input("2. Enter New Dataset Name", placeholder="e.g., Customer_List_Q4_2025_Cleaned")
+        update_id = st.text_input("1. Enter Dataset ID to Update", placeholder="e.g., 1")
+        new_name = st.text_input("2. Enter New Dataset Name", placeholder="e.g., Customer_List_Updated")
 
         update_submitted = st.form_submit_button("Update Name", type="primary")
 
@@ -288,16 +276,14 @@ with tab_update_metadata:
             else:
                 st.error("Please enter a valid Dataset ID and New Name.")
 
-# ==============================================================================
-## Delete Dataset
-# ==============================================================================
+# Delete a Dataset
 with tab_delete_dataset:
     st.header("Delete Dataset Record")
     st.warning("🚨 **Warning:** This action is permanent and cannot be undone.")
 
     with st.form("delete_form"):
         # Text input to get the ID to delete
-        delete_id = st.text_input("Enter Dataset ID to Delete", placeholder="e.g., DSET1001")
+        delete_id = st.text_input("Enter Dataset ID to Delete", placeholder="e.g., 0")
 
         # Submission button for the delete operation
         delete_submitted = st.form_submit_button("Delete Record", type="primary")

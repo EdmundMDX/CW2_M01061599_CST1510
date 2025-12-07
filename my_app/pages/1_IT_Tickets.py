@@ -12,7 +12,7 @@ TABLE_NAME = "it_tickets"
 # Define options for the input form
 TICKET_PRIORITIES = ['Low', 'Medium', 'High', 'Critical']
 TICKET_STATUSES = ['Open', 'In Progress', 'Resolved', 'Closed']
-ASSIGNED_USERS = ['Level 1 Support', 'Level 2 Specialist', 'Network Engineer', 'Security Admin']
+ASSIGNED_USERS = ['IT_Support_A', 'IT_Support_B', 'IT_Support_C']
 
 
 # --- Database Functions ---
@@ -112,7 +112,7 @@ def delete_ticket(ticket_id):
 # --- Streamlit Layout ---
 
 st.set_page_config(layout="wide", page_title="IT Ticket Dashboard")
-st.title("👨‍💻 IT Ticket Tracker & Dashboard")
+st.title("👨‍💻 IT Ticket Dashboard")
 
 # Ensure state keys exist (in case user opens this page first)
 if "logged_in" not in st.session_state:
@@ -135,9 +135,7 @@ tab_dashboard, tab_add_ticket, tab_update_ticket, tab_delete_ticket = st.tabs([
     "🗑️ Delete Ticket"
 ])
 
-# ==============================================================================
-## Dashboard Overview
-# ==============================================================================
+# Dashboard Overview
 with tab_dashboard:
     st.header("Ticket Summary")
 
@@ -145,7 +143,7 @@ with tab_dashboard:
 
     if not data_df.empty:
 
-        # --- Key Metrics (KPIs) ---
+        # Key Metrics 
         total = len(data_df)
         # Sum resolution time only for tickets that have a value
         total_resolution = data_df['resolution_time_hours'].sum() if 'resolution_time_hours' in data_df.columns and not data_df['resolution_time_hours'].empty else 0
@@ -230,17 +228,14 @@ with tab_dashboard:
     else:
         st.warning(f"No data available in the '{TABLE_NAME}' table. Use the 'New Ticket' tab to add records.")
 
-
-# ==============================================================================
-## Add New Ticket
-# ==============================================================================
+# Add New Ticket
 with tab_add_ticket:
     st.header("Add New IT Ticket Record")
 
     with st.form("ticket_form"):
 
         col_id, col_priority = st.columns(2)
-        ticket_id = col_id.text_input("1. Ticket ID (e.g., TKT1001)", placeholder="TKT1001")
+        ticket_id = col_id.text_input("1. Ticket ID (e.g., 2007)", placeholder="1000")
         priority = col_priority.selectbox("2. Priority", TICKET_PRIORITIES)
 
         description = st.text_area("3. Description", placeholder="User cannot log in to the main application.")
@@ -287,17 +282,14 @@ with tab_add_ticket:
             else:
                 st.error("Ticket ID and Description are required fields.")
 
-
-# ==============================================================================
-## Update Ticket Status/Resolution
-# ==============================================================================
+# Update Ticket Status/Resolution
 with tab_update_ticket:
     st.header("Update Ticket Status and Resolution Time")
     st.info("💡 You can find the **Ticket ID** in the **Dashboard** tab's **Raw Ticket Data** table.")
 
     with st.form("update_ticket_form"):
 
-        update_id = st.text_input("1. Enter Ticket ID to Update", placeholder="e.g., TKT1001")
+        update_id = st.text_input("1. Enter Ticket ID to Update", placeholder="e.g., 1000")
         
         col_status, col_resolution = st.columns(2)
         new_status = col_status.selectbox("2. New Status", TICKET_STATUSES, index=TICKET_STATUSES.index('In Progress'))
@@ -319,9 +311,7 @@ with tab_update_ticket:
             else:
                 st.error("Please enter a valid Ticket ID, Status, and Resolution Time.")
 
-# ==============================================================================
-## Delete Ticket
-# ==============================================================================
+# Delete Ticket
 with tab_delete_ticket:
     st.header("Delete Ticket Record")
     st.warning("🚨 **Warning:** This action is permanent and cannot be undone.")
@@ -338,7 +328,6 @@ with tab_delete_ticket:
                 delete_ticket(delete_id.strip())
             else:
                 st.error("Please enter a valid Ticket ID.")
-
 
 # Logout button
 st.divider()
