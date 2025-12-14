@@ -9,13 +9,13 @@ from datetime import datetime, timedelta
 DB_FILE = "intelligence_platform.db" # Using the same database file
 TABLE_NAME = "it_tickets"
 
-# Define options for the input form
+# Define options for the input formS
 TICKET_PRIORITIES = ['Low', 'Medium', 'High', 'Critical']
 TICKET_STATUSES = ['Open', 'In Progress', 'Resolved', 'Closed']
 ASSIGNED_USERS = ['IT_Support_A', 'IT_Support_B', 'IT_Support_C']
 
 
-# --- Database Functions ---
+# Database Functions 
 
 def get_db_connection():
     """Establishes and returns the SQLite database connection."""
@@ -109,7 +109,7 @@ def delete_ticket(ticket_id):
             st.error(f"❌ Error deleting ticket: {e}")
 
 
-# --- Streamlit Layout ---
+# Streamlit Layout
 
 st.set_page_config(layout="wide", page_title="IT Ticket Dashboard")
 st.title("👨‍💻 IT Ticket Dashboard")
@@ -208,7 +208,7 @@ with tab_dashboard:
 
         st.markdown("---")
 
-        # --- Raw Data Table ---
+        # Raw Data Table 
         st.subheader("Raw Ticket Data")
         
         # Select and rename columns for display

@@ -5,6 +5,9 @@ error control
 modules:
 pandas
 bcrypt==5.0.0
+genai
+plotly
+sqlite3
 
 Ai:
 genai
