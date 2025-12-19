@@ -77,7 +77,7 @@ if data_df.empty:
     # Note: Chat Assistant can still run without data, but we stop for the combined app.
     st.stop()
 
-# --- Global Column Check ---
+# Global Column Check 
 missing_cols = [col for col in REQUIRED_COLS if col not in data_df.columns]
 if missing_cols:
     st.error(f"❌ Data Error: The following required columns are missing from the '{TABLE_NAME}' table: **{', '.join(missing_cols)}**. Please ensure your database table structure matches the expected schema.")

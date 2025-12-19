@@ -80,12 +80,12 @@ def update_ticket_status_and_resolution(ticket_id, new_status, new_resolution_ti
             conn.commit()
 
             if cursor.rowcount > 0:
-                st.success(f"✏️ Status and Resolution Time for Ticket **{ticket_id}** updated. **Please refresh the page to update the dashboard.**")
+                st.success(f" Status and Resolution Time for Ticket **{ticket_id}** updated. **Please refresh the page to update the dashboard.**")
             else:
-                st.warning(f"⚠️ Ticket ID **{ticket_id}** not found. Update was not performed.")
+                st.warning(f" Ticket ID **{ticket_id}** not found. Update was not performed.")
 
         except sqlite3.Error as e:
-            st.error(f"❌ Error updating ticket: {e}")
+            st.error(f"  Error updating ticket: {e}")
 
 def delete_ticket(ticket_id):
     """Deletes a ticket record based on the ticket_id."""
@@ -101,12 +101,12 @@ def delete_ticket(ticket_id):
 
             # Check how many rows were affected
             if cursor.rowcount > 0:
-                st.success(f"🗑️ Ticket **{ticket_id}** successfully deleted. **Please refresh the page to update the dashboard.**")
+                st.success(f"  Ticket **{ticket_id}** successfully deleted. **Please refresh the page to update the dashboard.**")
             else:
-                st.warning(f"⚠️ Ticket ID **{ticket_id}** not found in the database.")
+                st.warning(f"  Ticket ID **{ticket_id}** not found in the database.")
 
         except sqlite3.Error as e:
-            st.error(f"❌ Error deleting ticket: {e}")
+            st.error(f"  Error deleting ticket: {e}")
 
 
 # Streamlit Layout
@@ -165,7 +165,7 @@ with tab_dashboard:
 
         st.markdown("---")
 
-        # --- Charts ---
+        # Charts 
         col_chart_1, col_chart_2 = st.columns(2)
 
         # Chart 1: Status Distribution

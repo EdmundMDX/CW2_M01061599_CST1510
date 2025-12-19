@@ -1,11 +1,11 @@
 
 import pandas as pd
-#from app.db import connect_database, DATA_DIR
+# from app.db import connect_database, DATA_DIR
 import sqlite3
 
 
 
-
+# Insert
 def insert_it_tickets(conn, ticket_id, priority, description, status, assigned_to, created_at, resolution_time_hours):
     """Insert a new it ticket based on the CSV schema."""
     cursor = conn.cursor()

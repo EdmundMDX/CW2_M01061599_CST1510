@@ -42,7 +42,7 @@ except KeyError:
     st.error("🚨 GEMINI_API_KEY not found in Streamlit secrets. Please configure it.")
     client = None
 
-# --- Streamlit Application Layout 
+# Streamlit Application Layout 
 st.set_page_config(layout="wide", page_title="Cybersecurity AI Aissistant") 
 st.title("🛡️ Cybersecurity AI Aissistant")
 st.markdown("---")

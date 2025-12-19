@@ -40,6 +40,7 @@ def fetch_incident_data(table):
             return pd.DataFrame()
     return pd.DataFrame()
 
+# Add a incident
 def add_new_incident(incident_id, timestamp, severity, category, status, description):
     """Inserts a new incident record into the database."""
     conn = get_db_connection()
@@ -52,13 +53,14 @@ def add_new_incident(incident_id, timestamp, severity, category, status, descrip
             """
             cursor.execute(insert_query, (incident_id, timestamp, severity, category, status, description))
             conn.commit()
-            st.success("✅ New Incident Recorded Successfully! **Please refresh the page to update the dashboard.**")
+            st.success("  New Incident Recorded Successfully! **Please refresh the page to update the dashboard.**")
             fetch_incident_data("cyber_incidents")
         except sqlite3.IntegrityError as e:
             st.error(f" Error: Incident ID **{incident_id}** may already exist. {e}")
         except sqlite3.Error as e:
             st.error(f" Error adding incident: {e}")
 
+# Update the status of a chosen incident 
 def update_incident_status(incident_id, new_status):
     """Updates the status of an existing incident record."""
     conn = get_db_connection()
@@ -72,13 +74,14 @@ def update_incident_status(incident_id, new_status):
             conn.commit()
             
             if cursor.rowcount > 0:
-                st.success(f"✏️ Status for Incident **{incident_id}** updated to **{new_status}**. **Please refresh the page to update the dashboard.**")
+                st.success(f" Status for Incident **{incident_id}** updated to **{new_status}**. **Please refresh the page to update the dashboard.**")
             else:
-                st.warning(f"⚠️ Incident ID **{incident_id}** not found. Status was not updated.")
+                st.warning(f" Incident ID **{incident_id}** not found. Status was not updated.")
                 
         except sqlite3.Error as e:
             st.error(f" Error updating incident status: {e}")
-            
+
+# Delete an incident record             
 def delete_incident(incident_id):
     """Deletes an incident record based on the incident_id."""
     conn = get_db_connection()
@@ -93,10 +96,10 @@ def delete_incident(incident_id):
             
             # Check how many rows were affected
             if cursor.rowcount > 0:
-                st.success(f"🗑️ Incident **{incident_id}** successfully deleted. **Please refresh the page to update the dashboard.**")
+                st.success(f" Incident **{incident_id}** successfully deleted. **Please refresh the page to update the dashboard.**")
                 fetch_incident_data("cyber_incidents")
             else:
-                st.warning(f"⚠️ Incident ID **{incident_id}** not found in the database.")
+                st.warning(f" Incident ID **{incident_id}** not found in the database.")
                 
         except sqlite3.Error as e:
             st.error(f" Error deleting incident: {e}")
@@ -147,7 +150,7 @@ with tab_dashboard:
 
         st.markdown("---")
         
-        # --- Charts ---
+        # Charts 
         col_chart_1, col_chart_2 = st.columns(2)
 
         # Chart 1: Category Distribution

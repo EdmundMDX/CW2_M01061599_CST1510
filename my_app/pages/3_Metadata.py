@@ -12,7 +12,7 @@ TABLE_NAME = "metadata"
 UPLOAD_USERS = ['data_scientist', 'cyber_admin', 'it_admin']
 
 
-# --- Database Functions ---
+#   Database Functions
 
 def get_db_connection():
     """Establishes and returns the SQLite database connection."""
@@ -44,6 +44,7 @@ def fetch_metadata_data(table):
             return pd.DataFrame()
     return pd.DataFrame()
 
+# Add a new dataset metadata record
 def add_new_dataset(dataset_id, name, rows, columns, uploaded_by, upload_date):
     """Inserts a new metadata record into the database."""
     conn = get_db_connection()
@@ -57,13 +58,13 @@ def add_new_dataset(dataset_id, name, rows, columns, uploaded_by, upload_date):
             """
             cursor.execute(insert_query, (dataset_id, name, rows, columns, uploaded_by, upload_date))
             conn.commit()
-            st.success("✅ New Dataset Metadata Recorded Successfully! **Please refresh the page to update the dashboard.**")
+            st.success("  New Dataset Metadata Recorded Successfully! **Please refresh the page to update the dashboard.**")
         except sqlite3.IntegrityError as e:
-            st.error(f"❌ Error: Dataset ID **{dataset_id}** may already exist. {e}")
+            st.error(f"   Error: Dataset ID **{dataset_id}** may already exist. {e}")
         except sqlite3.Error as e:
-            st.error(f"❌ Error adding dataset: {e}")
+            st.error(f"   Error adding dataset: {e}")
 
-# A simple update function, for example, to update the dataset name.
+# Update a name of a dataset meatadata record 
 def update_dataset_name(dataset_id, new_name):
     """Updates the name of an existing dataset record."""
     conn = get_db_connection()
@@ -77,13 +78,14 @@ def update_dataset_name(dataset_id, new_name):
             conn.commit()
 
             if cursor.rowcount > 0:
-                st.success(f"✏️ Name for Dataset **{dataset_id}** updated to **{new_name}**. **Please refresh the page to update the dashboard.**")
+                st.success(f"  Name for Dataset **{dataset_id}** updated to **{new_name}**. **Please refresh the page to update the dashboard.**")
             else:
-                st.warning(f"⚠️ Dataset ID **{dataset_id}** not found. Name was not updated.")
+                st.warning(f"  Dataset ID **{dataset_id}** not found. Name was not updated.")
 
         except sqlite3.Error as e:
-            st.error(f"❌ Error updating dataset name: {e}")
+            st.error(f"  Error updating dataset name: {e}")
 
+# Delete a dataset metadata record
 def delete_dataset(dataset_id):
     """Deletes a dataset record based on the dataset_id."""
     conn = get_db_connection()
@@ -98,15 +100,15 @@ def delete_dataset(dataset_id):
 
             # Check how many rows were affected
             if cursor.rowcount > 0:
-                st.success(f"🗑️ Dataset **{dataset_id}** successfully deleted. **Please refresh the page to update the dashboard.**")
+                st.success(f"  Dataset **{dataset_id}** successfully deleted. **Please refresh the page to update the dashboard.**")
             else:
-                st.warning(f"⚠️ Dataset ID **{dataset_id}** not found in the database.")
+                st.warning(f"  Dataset ID **{dataset_id}** not found in the database.")
 
         except sqlite3.Error as e:
-            st.error(f"❌ Error deleting dataset: {e}")
+            st.error(f"  Error deleting dataset: {e}")
 
 
-# --- Streamlit Layout ---
+# Streamlit Layout 
 
 st.set_page_config(layout="wide", page_title="Simple Metadata Dashboard")
 st.title("🗄️ Dataset Metadata Dashboard")
@@ -194,7 +196,7 @@ with tab_dashboard:
 
         st.markdown("---")
 
-        # --- Raw Data Table ---
+        # Raw Data Table 
         st.subheader("Raw Data")
         
         # Select and rename columns for display

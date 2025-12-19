@@ -4,7 +4,7 @@ import pandas as pd
 from google import genai
 from datetime import datetime
 
-# --- Configuration ---
+# Configuration
 DB_FILE = "intelligence_platform.db"
 TABLE_NAME = "metadata" # Target table for metadata analysis
 
@@ -165,7 +165,7 @@ with tab_assistant:
             with st.chat_message(display_role):
                 st.markdown(message["content"])
 
-    # --- Main logic for getting user input and calling the API ---
+    # Main logic for getting user input and calling the API 
     prompt = st.chat_input("Ask about data analysis or machine learning...", key="metadata_chat_input_key")
 
     if prompt:
